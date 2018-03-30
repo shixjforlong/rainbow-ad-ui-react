@@ -83,7 +83,7 @@ export default class AreasTable extends PureComponent {
             <Tooltip title="修改">
               <Button
                 shape="circle"
-                icon="reload"
+                icon="edit"
                 size="small"
                 onClick={() => this.handleManageCancel(true, id)}
               />

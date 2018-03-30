@@ -76,6 +76,19 @@ export default class Areas extends Component {
       </Form>
     );
   }
+  handleSearch = e => {
+    e.preventDefault();
+
+    this.props.form.validateFields((err, { area_name, ...values }) => {
+      if (err) return;
+      const searchValues = {
+        name:area_name,
+        ...values,
+      };
+      this.fetchAreas({}, searchValues);
+      this.setState({ searchValues });
+    });
+  };
 
   handleStandardTableChange = pagination => {
     this.fetchAreas(pagination, this.state.searchValues);

@@ -1,14 +1,31 @@
 import intl from 'react-intl-universal';
 import React, { Component } from 'react';
-import { DatePicker, Select, Input, Button, Form, Card } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Form,
+  Icon,
+  Input,
+  Menu,
+  message,
+  Popconfirm,
+  Radio,
+  Row,
+  Select,
+  Tooltip,
+} from 'antd';
 import moment from 'moment';
 import { connect } from 'dva';
-import style from './Areas.less';
+import styles from './Areas.less';
 import AreasTable from '../../../components/AreasTable';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import BizIcon from '../../../components/BizIcon';
+import AddArea from '../../../components/Area/AddArea';
 
-const { RangePicker } = DatePicker;
+
+
 const { Option } = Select;
 
 @connect(({ area, loading }) => ({
@@ -27,6 +44,9 @@ export default class Areas extends Component {
       searchValues: {
         verbose: 100,
       },
+       modalVisible: false,
+       expandForm: false,
+       selectedRowKeys: [],
     };
   }
 
@@ -110,15 +130,63 @@ export default class Areas extends Component {
     this.props.dispatch({ type: 'area/getAreas', payload });
   };
 
+  handleAddCancel = flag => {
+    this.setState({
+      modalVisible: !!flag,
+    });
+  };
+  handleAdd = values => {
+    this.props.dispatch({
+      type: 'area/add',
+      payload: {
+        ...values,
+        onSuccess: () => {
+          message.success('添加成功');
+          this.setState({
+            modalVisible: false,
+          });
+          this.fetchAreas({}, {});
+        },
+      },
+    });
+  };
+  handleRemove = areaId => {
+    this.props.dispatch({
+      type: 'area/remove',
+      payload: {
+        id: areaId,
+        onSuccess: () => {
+          message.success('删除成功');
+          this.fetchAreas({}, {});
+        },
+      },
+    });
+  };
+
    render() {
     const { area, loading, dispatch } = this.props;
     console.log(area);
-    const { data } = area;
+    const { data,add} = area;
+    const { selectedRowKeys, modalVisible } = this.state;
+    console.log(modalVisible);
     const tableProps = { loading, data, dispatch };
     const fontStyle = { fontSize: '20px', marginRight: '10px' };
     return (
       <PageHeaderLayout>
+
         <Card bordered={false}>
+           
+           <Tooltip title="新增区域" placement="left">
+            <Button
+              icon="plus"
+              type="primary"
+              shape="circle"
+              className={styles.addButton}
+              size="large"
+              onClick={() => this.handleAddCancel(true)}
+            />
+          </Tooltip>
+
           <div style={{ textAlign: 'center' }}>
             <div>{this.renderForm()}</div>
             <div>
@@ -127,10 +195,20 @@ export default class Areas extends Component {
                    dataSource={this.getAreaData(data.list)}
                    onChange={this.handleStandardTableChange}
                    onConfirm={this.handleConfirm}
+                   onRemove={this.handleRemove}
                 />
             </div>
           </div>
         </Card>
+
+        <AddArea
+          visible={modalVisible}
+          error={add.error}
+          status={add.status}
+          onAdd={this.handleAdd}
+          onCancel={this.handleAddCancel}
+        />
+        
       </PageHeaderLayout>
     );
   }

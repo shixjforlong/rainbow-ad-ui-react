@@ -1,4 +1,4 @@
-import { getAreasList } from '../services/area';
+import { getAreasList,addArea,removeArea,} from '../services/area';
 
 export default {
 	namespace: 'area',
@@ -8,6 +8,9 @@ export default {
 	      list: [],
 	      pagination: {},
 	    },
+	    add: {
+          status: 'ok',
+        },
     },
 
     effects: {
@@ -17,6 +20,42 @@ export default {
 		        type: 'save',
 		        payload: response,
 		      });
+         },
+         *add({ payload }, { call, put }) {
+		      const { onSuccess } = payload;
+		      const response = yield call(addArea, payload);
+		      const { error } = response;
+
+		      if (error) {
+		        yield put({
+		          type: 'setAddStatus',
+		          payload: {
+		            status: 'error',
+		            error: response,
+		          },
+		        });
+		      } else {
+		        yield put({
+		          type: 'setAddStatus',
+		          payload: {
+		            status: 'ok',
+		          },
+		        });
+		        onSuccess();
+		      }
+         },
+         *remove({ payload }, { call, put }) {
+		      const { onSuccess } = payload;
+		      const { result } = yield call(removeArea, payload);
+		      if (result) {
+		        yield put({
+		          type: 'save',
+		          payload: {
+		            status: 'ok',
+		          },
+		        });
+		        onSuccess();
+		      }
          },
     },
     reducers: {

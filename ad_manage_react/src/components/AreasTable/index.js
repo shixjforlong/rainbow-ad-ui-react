@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Button, Table, Tooltip } from 'antd';
+import { Button, Table, Tooltip,  Divider, Popconfirm } from 'antd';
 import { Link } from 'react-router-dom';
 import intl from 'react-intl-universal';
 //import AlarmManage from '../AlarmManage';
@@ -16,6 +16,9 @@ export default class AreasTable extends PureComponent {
     this.props.onChange(pagination, filters, sorter);
   };
 
+  removeArea = id => {
+    this.props.onRemove(id);
+  };
   handleManageCancel = (tab, id) => {
     const { dataSource } = this.props;
     dataSource.map(data => {
@@ -72,7 +75,34 @@ export default class AreasTable extends PureComponent {
       {
         title: intl.get('site.area.createTime'),//创建时间
         dataIndex: 'createTime',
-      }
+      },
+      {
+        title: intl.get('common.operation'),
+        render: ({ _id: id, state }) => (
+          <div>
+            <Tooltip title="修改">
+              <Button
+                shape="circle"
+                icon="reload"
+                size="small"
+                onClick={() => this.handleManageCancel(true, id)}
+              />
+            </Tooltip>
+
+             <Divider type="vertical" />
+
+             <Tooltip title="删除">
+              <Popconfirm
+                title="是否确认删除?"
+                onConfirm={() => this.removeArea(id)}
+              >
+                <Button shape="circle" icon="delete" size="small" />
+              </Popconfirm>
+            </Tooltip>
+            
+          </div>
+        ),
+      },
     ];
 
     return (

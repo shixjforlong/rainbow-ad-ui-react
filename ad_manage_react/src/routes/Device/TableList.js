@@ -30,12 +30,6 @@ const { Option } = Select;
 }))
 @Form.create()
 export default class TableList extends PureComponent {
-  state = {
-    modalVisible: false,
-    expandForm: false,
-    selectedRowKeys: [],
-    searchValues: {},
-  };
 
   componentDidMount() {
     const { dispatch } = this.props;

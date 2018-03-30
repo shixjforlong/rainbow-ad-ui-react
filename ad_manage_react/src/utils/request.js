@@ -95,8 +95,10 @@ export default function request(url, options, retry = true) {
     const token = JSON.parse(tokenItem).access_token;
     console.log(newOptions);
 
-    newOptions.params.access_token = token;
     
+    if(newOptions.params){
+       newOptions.params.access_token = token;
+    }
     
     /* defaultOptions = {
        ...defaultOptions,

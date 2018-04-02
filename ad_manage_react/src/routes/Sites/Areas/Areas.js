@@ -202,7 +202,7 @@ export default class Areas extends Component {
             />
           </Tooltip>
 
-          <div style={{ textAlign: 'center' }}>
+          <div >
             <div>{this.renderForm()}</div>
             <div>
                <AreasTable

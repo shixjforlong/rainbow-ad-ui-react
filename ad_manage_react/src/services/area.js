@@ -6,7 +6,8 @@ export async function getAreasList(params) {
 }
 
 export async function addArea(params) {
-  return request('/api/areaMan/add', { body: params, method: 'post' ,params: { verbose: 100 }});
+  const resp = request('/api/areaMan/add', { body: params, method: 'post' ,params: { verbose: 100 }});
+  return resp;
 }
 
 export async function updateArea(params) {
@@ -24,10 +25,11 @@ export async function updateArea(params) {
 }*/
 
 export async function removeArea( params) {
-  return request('/api/areaMan/delBatch', {
+  const resp = request('/api/areaMan/delBatch', {
     method: 'post',
     params:{
     	ids:params.id
     }
   });
+  return resp;
 }

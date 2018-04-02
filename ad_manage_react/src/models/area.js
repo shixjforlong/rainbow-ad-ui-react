@@ -28,7 +28,7 @@ export default {
 
 		      if (error) {
 		        yield put({
-		          type: 'setAddStatus',
+		          type: 'save',
 		          payload: {
 		            status: 'error',
 		            error: response,
@@ -36,7 +36,7 @@ export default {
 		        });
 		      } else {
 		        yield put({
-		          type: 'setAddStatus',
+		          type: 'save',
 		          payload: {
 		            status: 'ok',
 		          },
@@ -69,16 +69,16 @@ export default {
 		     },
          *remove({ payload }, { call, put }) {
 		      const { onSuccess } = payload;
-		      const { result } = yield call(removeArea, payload);
-		      if (result) {
-		        yield put({
-		          type: 'save',
-		          payload: {
-		            status: 'ok',
-		          },
-		        });
-		        onSuccess();
-		      }
+		      const response  = yield call(removeArea, payload);
+					if (response) {
+						yield put({
+ 						 type: 'save',
+ 						 payload: {
+ 							 status: 'ok',
+ 						 },
+ 					 });
+ 					 onSuccess();
+				 }
          },
     },
     reducers: {
@@ -93,12 +93,6 @@ export default {
 	            current: payload.cursor / payload.limit + 1,
 	          },
 	        },
-	      };
-	    },
-	    confirmStatus(state, { payload }) {
-	      return {
-	        ...state,
-	        confirm: payload,
 	      };
 	    },
   },

@@ -9,6 +9,16 @@ export async function addArea(params) {
   return request('/api/areaMan/add', { body: params, method: 'post' ,params: { verbose: 100 }});
 }
 
+export async function updateArea(params) {
+  return request('/api/areaMan/'+params.id, {
+    body: params.body,
+    method: 'put',
+    params: {
+      verbose: 100,
+    },
+  });
+}
+
 /*export async function validateArea(params) {
   return request'/api/areaMan/validate', { params });
 }*/
@@ -21,4 +31,3 @@ export async function removeArea( params) {
     }
   });
 }
-

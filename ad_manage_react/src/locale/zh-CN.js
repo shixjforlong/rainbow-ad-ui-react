@@ -29,6 +29,7 @@ module.exports = {
     all: '全部',
     pagination_footer: '共 {total} 条记录 第 {current} / {pages} 页',
     notice: '提示',
+    confirmupdate:"确认保存?"
   },
   management: {
     site: '现场',
@@ -44,7 +45,7 @@ module.exports = {
   notice: {
     // 通知
     notice: '通知',
-    alarms: '告警', 
+    alarms: '告警',
     logs: '日志',
     level: '等级',
     serious_warning: '严重警告',
@@ -97,7 +98,8 @@ module.exports = {
         charger:"负责人",
         phone:"联系方式",
         description:"描述",
-        createTime:"创建时间"
+        createTime:"创建时间",
+        areaDetail:"区域详情"
     }
   },
   org: {

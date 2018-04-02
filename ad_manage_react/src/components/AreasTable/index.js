@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Button, Table, Tooltip,  Divider, Popconfirm } from 'antd';
 import { Link } from 'react-router-dom';
 import intl from 'react-intl-universal';
-//import AlarmManage from '../AlarmManage';
+import AreaManage from '../AreaManage';
 
 export default class AreasTable extends PureComponent {
   constructor(props) {
@@ -31,6 +31,12 @@ export default class AreasTable extends PureComponent {
       modalVisible: !!tab,
     });
   };
+
+  onConfirm = (id, comment) => {
+    console.log(id);
+    console.log(comment);
+    this.props.onConfirm(id,comment);
+  }
 
   renderFooter = () => {
     const { total, pageSize, current } = this.props.data.pagination;
@@ -99,7 +105,7 @@ export default class AreasTable extends PureComponent {
                 <Button shape="circle" icon="delete" size="small" />
               </Popconfirm>
             </Tooltip>
-            
+
           </div>
         ),
       },
@@ -117,7 +123,16 @@ export default class AreasTable extends PureComponent {
           onChange={this.handleTableChange}
           footer={this.renderFooter}
         />
-       
+        {modalVisible && (
+          <AreaManage
+            dispatch={this.props.dispatch}
+            visible={modalVisible}
+            onCancel={this.handleManageCancel}
+            data={this.state.manageData}
+            onConfirm={this.onConfirm}
+          />
+        )}
+
       </div>
     );
   }

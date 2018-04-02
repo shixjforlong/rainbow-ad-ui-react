@@ -51,7 +51,7 @@ export default class Areas extends Component {
   }
 
   componentDidMount() {
-   
+
     const { dispatch } = this.props;
     dispatch({
       type: 'area/getAreas',
@@ -60,14 +60,14 @@ export default class Areas extends Component {
   }
 
   getAreaData = areas => {
-    if (areas.length === 0 || areas === undefined) {
+    if (areas === undefined || areas.length === 0 || areas === undefined) {
       return [];
     }
     const newNotices = areas.map(notice => {
       let newNotice = { ...notice };
       newNotice = {
         ...notice,
-        _id: notice._id, 
+        _id: notice._id,
         name:notice.name,
         charger:notice.charger,
         phone:notice.phone,
@@ -75,7 +75,7 @@ export default class Areas extends Component {
         createTime: moment(notice.createTime * 1000).format(
           'YYYY.MM.DD HH:mm:ss'
         ),
-     
+
       };
       return newNotice;
     });
@@ -115,7 +115,7 @@ export default class Areas extends Component {
   };
   fetchAreas = (
     pagination,
-    { levels, states, confirm_states, ...searchValues }
+    { ...searchValues }
   ) => {
     let params = {};
     if (pagination && pagination.current) {
@@ -126,7 +126,7 @@ export default class Areas extends Component {
     }
     const verbose = { verbose: 100 };
     const payload = { ...verbose, ...params, ...searchValues };
-    
+
     this.props.dispatch({ type: 'area/getAreas', payload });
   };
 
@@ -163,19 +163,34 @@ export default class Areas extends Component {
     });
   };
 
+  handleConfirm = (id, comment) => {
+    const { dispatch } = this.props;
+    const { searchValues } = this.state;
+    this.props.dispatch({
+      type: 'area/upates',
+      payload: {
+        id,
+        body: comment,
+        onSuccess: () => {
+          message.success('修改成功');
+          this.fetchAreas({}, {});
+        },
+      }
+    });
+  };
+
    render() {
     const { area, loading, dispatch } = this.props;
     console.log(area);
     const { data,add} = area;
     const { selectedRowKeys, modalVisible } = this.state;
-    console.log(modalVisible);
     const tableProps = { loading, data, dispatch };
     const fontStyle = { fontSize: '20px', marginRight: '10px' };
     return (
       <PageHeaderLayout>
 
         <Card bordered={false}>
-           
+
            <Tooltip title="新增区域" placement="left">
             <Button
               icon="plus"
@@ -208,7 +223,7 @@ export default class Areas extends Component {
           onAdd={this.handleAdd}
           onCancel={this.handleAddCancel}
         />
-        
+
       </PageHeaderLayout>
     );
   }

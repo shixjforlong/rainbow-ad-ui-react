@@ -1,8 +1,8 @@
-import { getAreasList,addArea,removeArea,} from '../services/area';
+import { getAreasList,addArea,updateArea,removeArea,} from '../services/area';
 
 export default {
 	namespace: 'area',
-    
+
     state: {
 	    data: {
 	      list: [],
@@ -44,6 +44,29 @@ export default {
 		        onSuccess();
 		      }
          },
+				 *upates({ payload, callBack }, { call, put }) {
+		       const response = yield call(updateArea, payload);
+		       const { error } = response;
+					 const { result } = response;
+					 const { onSuccess } = payload;
+					 if (result) {
+						 yield put({
+							type: 'save',
+							payload: {
+								 status: 'ok',
+							},
+					 	});
+						onSuccess();
+		       } else {
+						 yield put({
+ 							type: 'save',
+ 							payload: {
+ 								status: 'error',
+ 								error: response,
+ 							},
+ 						});
+		       }
+		     },
          *remove({ payload }, { call, put }) {
 		      const { onSuccess } = payload;
 		      const { result } = yield call(removeArea, payload);

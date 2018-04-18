@@ -1,21 +1,14 @@
 @import "~antd/lib/style/themes/default.less";
-@import "../../mixin.less";
 
 .header {
-  height: 64px;
+  padding: 0 12px 0 0;
+  background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
   position: relative;
-  color: #fff;
-  .horizontal-gradient(#3b86db, #4ad4e7);
-}
-
-.bigHeader {
-  height: 85px;
 }
 
 :global {
   .ant-layout {
-    min-height: 100vh;
     overflow-x: hidden;
   }
 }
@@ -49,9 +42,8 @@ i.trigger {
   cursor: pointer;
   transition: all .3s, padding 0s;
   padding: 0 24px;
-  height: 100%;
   &:hover {
-    background: #42abe1;
+    background: @primary-1;
   }
 }
 
@@ -67,14 +59,12 @@ i.trigger {
     > i {
       font-size: 16px;
       vertical-align: middle;
-      color: #fff;
     }
     &:hover,
     &:global(.ant-popover-open) {
-      background: #42abe1;
+      background: @primary-1;
     }
   }
-
   .search {
     padding: 0;
     margin: 0 12px;
@@ -85,19 +75,9 @@ i.trigger {
   .account {
     .avatar {
       margin: 20px 8px 20px 0;
-      color: #fff;
-      font-weight: bold;
-      background: #82d7f8;
+      color: @primary-color;
+      background: rgba(255, 255, 255, .85);
       vertical-align: middle;
-    }
-
-    .name {
-      display: inline-block;
-      float: right;
-      max-width: 105px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
     }
   }
 }

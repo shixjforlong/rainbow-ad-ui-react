@@ -15,7 +15,7 @@ import alarmImportantImage from '../../assets/images/important-warning.svg';
 import alarmMinorImage from '../../assets/images/minor-warning.svg';
 import alarmCautionImage from '../../assets/images/caution.svg';
 import alarmRemindImage from '../../assets/images/remind.svg';
- 
+
 @connect(state => ({
   alarmsUnconfirmed: state.overview.alarmsUnconfirmed,
   alarmsUnconfirmedTotal: state.overview.alarmsUnconfirmedTotal,

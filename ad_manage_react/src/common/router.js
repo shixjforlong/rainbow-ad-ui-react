@@ -86,6 +86,13 @@ export const getRouterData = app => {
       ),
     },
 
+    //媒体库管理
+    '/ad/media': {
+      component: dynamicWrapper(app, ['media'], () =>
+        import('../routes/Media/medias')
+      ),
+    },
+
     // 区域管理
     '/site/area': {
       component: dynamicWrapper(app, ['area'], () =>

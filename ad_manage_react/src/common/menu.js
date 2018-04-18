@@ -15,6 +15,26 @@ const menuData = [
     path: 'home',
   },
   {
+    // 广告管理
+    name: 'ad.ad_management',
+    path: 'ad',
+    icon: <Icon type="router" />,
+    children: [
+      {
+        name: 'ad.mediaManagement',  //媒体库
+        path: 'media',
+      },
+      {
+        name: 'ad.phoneManagement',   //手机广告
+        path: 'phoneAd',
+      },
+      {
+        name: 'ad.automatManagement',  //售货机广告
+        path: 'automatAd',
+      },
+    ],
+  },
+  /*{
     // 点位
     name: 'site.site_management',
     path: 'site',
@@ -33,7 +53,7 @@ const menuData = [
         path: 'site',
       },
     ],
-  },
+  },*/
 ];
 
 function formatter(data, parentPath = '', parentAuthority) {

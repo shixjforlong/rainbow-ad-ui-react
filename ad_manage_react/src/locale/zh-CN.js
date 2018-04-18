@@ -31,6 +31,20 @@ module.exports = {
     notice: '提示',
     confirmupdate:"确认保存?"
   },
+  ad: {
+    // 广告管理
+    ad_management: '广告管理',
+    mediaManagement: '媒体库',
+    phoneManagement: '手机广告管理',
+    automatManagement: '售货机广告管理',
+    media:{
+      mediaName:'素材名称',
+      fileName:'文件名称',
+      length:'文件大小',
+      fileShow:'文件预览',
+      createTime:'创建时间'
+    }
+  },
   management: {
     site: '现场',
     gateway: '网关',

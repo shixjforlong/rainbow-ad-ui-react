@@ -23,7 +23,8 @@ export default class AddMedia extends PureComponent {
   state = {
     preview: "",
     imageList: [],
-    token: {}
+    token: {},
+    visiblePreview: false,
   }
 
   validateName = debounce((rule, value, callback) => {
@@ -60,7 +61,7 @@ export default class AddMedia extends PureComponent {
     const { visible,error,form,dispatch } = this.props;
     const { getFieldDecorator } = form;
 
-    const { preview, imageList} = this.state
+    const { preview, imageList,visiblePreview} = this.state
 
     const propsFile = {
       onRemove: (file) => {
@@ -122,8 +123,13 @@ export default class AddMedia extends PureComponent {
 
               )}
           </Form.Item>
+
         </Form>
+        <Modal visible={visiblePreview} footer={null} onCancel={this.handleCancel}>
+            <img alt="example" style={{ width: '100%' }} src={preview} />
+        </Modal>
       </Modal>
+
     );
   }
 
@@ -147,14 +153,16 @@ export default class AddMedia extends PureComponent {
     }
     return false;
   }
-
+  //预览图片
   handlePreview = (file) => {
     console.log(file);
     this.setState({
       preview: file.url || file.thumbUrl,
-      visible: true,
+      visiblePreview: true,
     });
   }
+  //取消预览图片
+  handleCancel = () => this.setState({ visiblePreview: false })
 }
 
 const client = (self) => {

@@ -1,4 +1,4 @@
-import { getMediasList,} from '../services/media';
+import { getMediasList,getOSSTokenInfo,} from '../services/media';
 
 export default {
 	namespace: 'media',
@@ -21,6 +21,18 @@ export default {
 		        payload: response,
 		      });
          },
+
+				 *getOSSToken({payload }, { call, put }) {
+					 const { onSuccess } = payload;
+		       const { result } = yield call(getOSSTokenInfo, payload);
+		       if (result) {
+		         yield put({
+		           type: 'save',
+		           payload: result,
+		         });
+						 onSuccess(result);
+		       }
+		     },
 
     },
     reducers: {

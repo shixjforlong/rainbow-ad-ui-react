@@ -28,6 +28,9 @@
     "/api/**": {
       "target": "http://svc-test.inhand.com.cn"
     },
+    "/ossapi/**": {
+      "target": "http://svc-test.inhand.com.cn"
+    },
     "/api2/**": {
       "target": "http://svc-test.inhand.com.cn"
     },

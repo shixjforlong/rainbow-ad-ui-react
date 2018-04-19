@@ -64,7 +64,8 @@
     "react-router-dom": "^4.2.2",
     "shortid": "^2.2.8",
     "rollbar": "^2.3.4",
-    "url-polyfill": "^1.0.11"
+    "url-polyfill": "^1.0.11",
+    "ali-oss": "^5.1.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.38",

@@ -7,7 +7,7 @@ import styles from './medias.less';
 import MediasTable from '../../components/MediasTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import BizIcon from '../../components/BizIcon';
-
+import AddMedia from '../../components/Media/AddMedia';
 
 const { Option } = Select;
 
@@ -93,6 +93,12 @@ export default class medias extends Component {
    });
  };
 
+ handleAddCancel = flag => {
+   this.setState({
+     modalVisible: !!flag,
+   });
+ };
+
  handleStandardTableChange = pagination => {
    this.fetchAreas(pagination, this.state.searchValues);
  };
@@ -125,6 +131,17 @@ export default class medias extends Component {
 
        <Card bordered={false}>
 
+        <Tooltip title="新增素材" placement="left">
+          <Button
+            icon="plus"
+            type="primary"
+            shape="circle"
+            className={styles.addButton}
+            size="large"
+            onClick={() => this.handleAddCancel(true)}
+          />
+        </Tooltip>
+
          <div >
            <div>{this.renderForm()}</div>
            <div>
@@ -138,7 +155,14 @@ export default class medias extends Component {
            </div>
          </div>
        </Card>
-
+       <AddMedia
+         visible={modalVisible}
+         error={add.error}
+         status={add.status}
+         onAdd={this.handleAdd}
+         onCancel={this.handleAddCancel}
+         dispatch={this.props.dispatch}
+       />
 
 
      </PageHeaderLayout>

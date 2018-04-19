@@ -129,7 +129,7 @@ export default class MediasTable extends PureComponent {
           onChange={this.handleTableChange}
           footer={this.renderFooter}
         />
-
+  
 
       </div>
     );

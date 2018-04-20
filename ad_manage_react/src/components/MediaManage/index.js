@@ -9,14 +9,24 @@ const { confirm } = Modal;
 export default class MediaManage extends PureComponent {
   constructor(props) {
     super(props);
-  }
-  state = {
-    preview: "",
-    imageList:[],
-    token: {},
-    visiblePreview: false,
-    md5:"",
-    length:"",
+
+    let oldImage=[{
+      uid: "0001",
+      name: props.data.fileName,
+      status: "200",
+      type: "image",
+      result: props.data.fileName,
+      url: props.data.imageCdnpath,
+    }];
+    this.state = {
+      preview: "",
+      imageList:[],
+      token: {},
+      visiblePreview: false,
+      md5:"",
+      length:"",
+    }
+    this.state.imageList = oldImage;
   }
 
   //点击取消按钮
@@ -63,16 +73,7 @@ export default class MediaManage extends PureComponent {
   handleCancelPreview = () => this.setState({ visiblePreview: false })
 
   componentDidMount(){
-     //向后台服务器请求获取token.
-    /* this.props.dispatch({
-       type: 'media/getOSSToken',
-       payload: {
-         verbose:100,
-         onSuccess: (result) => {
-             this.setState({token: result})
-         },
-       },
-     });*/
+
   }
 
   render() {

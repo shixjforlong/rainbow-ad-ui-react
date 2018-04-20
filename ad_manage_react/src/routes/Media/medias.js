@@ -35,11 +35,16 @@ export default class medias extends Component {
   }
 
   componentDidMount() {
-
-    const { dispatch } = this.props;
-    dispatch({
+     this.props.dispatch({
       type: 'media/getMedias',
       payload: { ...this.state.searchValues },
+    });
+
+    this.props.dispatch({
+      type: 'media/getOSSToken',
+      payload: {
+        verbose:100
+      },
     });
   }
 

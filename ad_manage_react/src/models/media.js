@@ -30,7 +30,11 @@ export default {
 		           type: 'save',
 		           payload: result,
 		         });
-						 onSuccess(result);
+						 sessionStorage.setItem('accessKey', result.accessKey);
+						 sessionStorage.setItem('accessid', result.accessid);
+						 sessionStorage.setItem('bucket', result.bucket);
+						 sessionStorage.setItem('endpoint', result.endpoint);
+						 sessionStorage.setItem('signature', result.signature);
 		       }
 		     },
 

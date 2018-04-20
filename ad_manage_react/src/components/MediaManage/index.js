@@ -7,7 +7,9 @@ const { confirm } = Modal;
 
 @Form.create()
 export default class MediaManage extends PureComponent {
-
+  constructor(props) {
+    super(props);
+  }
   state = {
     preview: "",
     imageList:[],
@@ -50,7 +52,6 @@ export default class MediaManage extends PureComponent {
     });
   };
 
-
   //预览图片
   handlePreview = (file) => {
     this.setState({
@@ -63,7 +64,7 @@ export default class MediaManage extends PureComponent {
 
   componentDidMount(){
      //向后台服务器请求获取token.
-     this.props.dispatch({
+    /* this.props.dispatch({
        type: 'media/getOSSToken',
        payload: {
          verbose:100,
@@ -71,11 +72,11 @@ export default class MediaManage extends PureComponent {
              this.setState({token: result})
          },
        },
-     });
+     });*/
   }
 
   render() {
-    const { visible, data } = this.props;
+    const { visible, data ,dispatch} = this.props;
     const { getFieldDecorator } = this.props.form;
     const itemLayout = {
       labelCol: { span: 6 },
@@ -161,14 +162,16 @@ export default class MediaManage extends PureComponent {
   }
 }
 const client = (self) => {
-  const {token} = self.state;
-  console.log(token);
-  return new OSS.Wrapper({
-    accessKeyId: token.accessid,
-    accessKeySecret: token.accessKey,
-    region: token.endpoint.split(".")[0],
-    bucket: token.bucket,
-  });
+    let accessKey = sessionStorage.getItem('accessKey');
+    let accessid = sessionStorage.getItem('accessid');
+    let region = sessionStorage.getItem('endpoint');
+    let bucket = sessionStorage.getItem('bucket');
+    return new OSS.Wrapper({
+      accessKeyId: accessid,
+      accessKeySecret: accessKey,
+      region: region.split(".")[0],
+      bucket: bucket,
+    });
 }
 
 const uploadPath = (file) => {

@@ -10,14 +10,16 @@ import OSS from 'ali-oss';
 
 @Form.create()
 export default class AddMedia extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
+
+  static defaultProps = {
+    error: undefined,
+  };
+
   static propTypes = {
     visible: PropTypes.bool.isRequired,
     error: PropTypes.object,
-  //  onAdd: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
+    onAdd: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired
   };
 
   state = {
@@ -25,25 +27,36 @@ export default class AddMedia extends PureComponent {
     imageList: [],
     token: {},
     visiblePreview: false,
+    md5:"",
+    length:"",
   }
 
-  validateName = debounce((rule, value, callback) => {
-    validateArea({ name: value })
-      .then(({ error }) => {
-        if (error) {
-          callback('error');
-        } else {
-          callback();
-        }
-      })
-      .catch(() => callback());
-  }, 500);
-
+  handleAdd = () => {
+    const { onAdd } = this.props;
+    this.props.form.validateFields({ force: true }, (err, values) => {
+      if (!err) {
+        console.log(values);
+        const fileInfo = {
+          mediaName:values.mediaName,
+          fileName:this.state.imageList[0].name,
+          md5:this.state.md5,
+          length:this.state.length,
+          imageCdnpath:this.state.imageList[0].url,
+          mediaType:"1_",
+          fileId:"",
+          fileSource:"2",
+        };
+        console.log(fileInfo);
+        onAdd(fileInfo);
+      }
+    });
+  };
 
   handleCancel = () => {
     const { onCancel } = this.props;
     onCancel();
   };
+
   componentDidMount(){
      //向后台服务器请求获取token.
      this.props.dispatch({
@@ -62,7 +75,7 @@ export default class AddMedia extends PureComponent {
     const { getFieldDecorator } = form;
 
     const { preview, imageList,visiblePreview} = this.state
-
+    console.log(imageList);
     const propsFile = {
       onRemove: (file) => {
         this.setState(({ imageList }) => {
@@ -125,7 +138,7 @@ export default class AddMedia extends PureComponent {
           </Form.Item>
 
         </Form>
-        <Modal visible={visiblePreview} footer={null} onCancel={this.handleCancel}>
+        <Modal visible={visiblePreview} footer={null} onCancel={this.handleCancelPreview}>
             <img alt="example" style={{ width: '100%' }} src={preview} />
         </Modal>
       </Modal>
@@ -162,7 +175,7 @@ export default class AddMedia extends PureComponent {
     });
   }
   //取消预览图片
-  handleCancel = () => this.setState({ visiblePreview: false })
+  handleCancelPreview = () => this.setState({ visiblePreview: false })
 }
 
 const client = (self) => {
@@ -184,9 +197,21 @@ const UploadToOss = (self, file) => {
   const url = uploadPath(file)
   return new Promise((resolve, reject) => {
     client(self).multipartUpload(url, file).then(data => {
-      console.log(data);
+      //获取图片的大小和md5值
       const fileName = data.name;
-
+      self.props.dispatch({
+        type: 'media/getObjectInfo',
+        payload: {
+          fileName:fileName,
+          onSuccess: (result) => {
+              console.log(result);
+              self.setState({
+                md5: result.etag,
+                length:result.size
+              })
+          },
+        },
+      });
       resolve(data);
     }).catch(error => {
       reject(error)

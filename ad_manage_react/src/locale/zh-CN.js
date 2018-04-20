@@ -42,7 +42,8 @@ module.exports = {
       fileName:'文件名称',
       length:'文件大小',
       fileShow:'文件预览',
-      createTime:'创建时间'
+      createTime:'创建时间',
+      detail:"素材详情"
     }
   },
   management: {

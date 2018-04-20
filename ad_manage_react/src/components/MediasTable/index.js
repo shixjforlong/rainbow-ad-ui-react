@@ -3,7 +3,7 @@ import { Button, Table, Tooltip,  Divider, Popconfirm } from 'antd';
 import { Link } from 'react-router-dom';
 import intl from 'react-intl-universal';
 import styles from './index.less';
-//import MediaManage from '../MediaManage';
+import MediaManage from '../MediaManage';
 
 export default class MediasTable extends PureComponent {
   constructor(props) {
@@ -106,7 +106,7 @@ export default class MediasTable extends PureComponent {
              <Tooltip title="删除">
               <Popconfirm
                 title="是否确认删除?"
-                onConfirm={() => this.removeMedia(id)}
+                onConfirm={() => this.removeMeida(id)}
               >
                 <Button shape="circle" icon="delete" size="small" />
               </Popconfirm>
@@ -129,7 +129,15 @@ export default class MediasTable extends PureComponent {
           onChange={this.handleTableChange}
           footer={this.renderFooter}
         />
-  
+        {modalVisible && (
+          <MediaManage
+            dispatch={this.props.dispatch}
+            visible={modalVisible}
+            onCancel={this.handleManageCancel}
+            data={this.state.manageData}
+            onConfirm={this.onConfirm}
+          />
+        )}
 
       </div>
     );

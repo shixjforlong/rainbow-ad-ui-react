@@ -99,6 +99,49 @@ export default class medias extends Component {
    });
  };
 
+ handleAdd = values => {
+   console.log(values);
+   this.props.dispatch({
+     type: 'media/add',
+     payload: {
+       ...values,
+       onSuccess: () => {
+         message.success('添加成功');
+         this.setState({
+           modalVisible: false,
+         });
+         this.fetchAreas({}, {});
+       },
+     },
+   });
+ };
+ handleRemove = mediaId => {
+   this.props.dispatch({
+     type: 'media/remove',
+     payload: {
+       id: mediaId,
+       onSuccess: () => {
+         message.success('删除成功');
+         this.fetchAreas({}, {});
+       },
+     },
+   });
+ };
+
+ handleConfirm = (id, comment) => {
+   this.props.dispatch({
+     type: 'media/upates',
+     payload: {
+       id,
+       body: comment,
+       onSuccess: () => {
+         message.success('修改成功');
+         this.fetchAreas({}, {});
+       },
+     }
+   });
+ };
+
  handleStandardTableChange = pagination => {
    this.fetchAreas(pagination, this.state.searchValues);
  };

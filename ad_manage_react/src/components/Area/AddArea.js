@@ -19,7 +19,7 @@ export default class AddArea extends PureComponent {
     error: PropTypes.object,
     onAdd: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired
-  }; 
+  };
 
   validateName = debounce((rule, value, callback) => {
     validateArea({ name: value })
@@ -50,7 +50,7 @@ export default class AddArea extends PureComponent {
   render() {
     const { visible,error,form } = this.props;
     const { getFieldDecorator } = form;
-   
+
     const itemLayout = {
       labelCol: { span: 5 },
       wrapperCol: { span: 15 },
@@ -76,7 +76,7 @@ export default class AddArea extends PureComponent {
               ],
             })(<Input placeholder="请输入区域名称" />)}
           </Form.Item>
-          
+
           <Form.Item {...itemLayout} label="负责人">
             {getFieldDecorator('charger', {
               initialValue: '',

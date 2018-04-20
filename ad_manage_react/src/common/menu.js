@@ -34,7 +34,7 @@ const menuData = [
       },
     ],
   },
-  /*{
+  {
     // 点位
     name: 'site.site_management',
     path: 'site',
@@ -53,7 +53,7 @@ const menuData = [
         path: 'site',
       },
     ],
-  },*/
+  },
 ];
 
 function formatter(data, parentPath = '', parentAuthority) {

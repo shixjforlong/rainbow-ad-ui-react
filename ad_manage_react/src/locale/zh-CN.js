@@ -49,7 +49,10 @@ module.exports = {
       name:"广告名称",
       startTime:"开始时间",
       endTime:"结束时间",
-      payStyles:"支付方式"
+      payStyles:"支付方式",
+      paySelect:"请选择支付方式",
+      wechat:"微信",
+      alipay:"支付宝"
     }
   },
   management: {

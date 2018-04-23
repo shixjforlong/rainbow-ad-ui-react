@@ -7,6 +7,7 @@ import styles from './phoneAd.less';
 import PhoneAdTable from '../../components/PhoneAdTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import BizIcon from '../../components/BizIcon';
+import AddPhoneAd from '../../components/PhoneAd/AddPhoneAd';
 
 const { Option } = Select;
 
@@ -99,6 +100,9 @@ export default class phoneAd extends Component {
      modalVisible: !!flag,
    });
  };
+ handleAdd = values => {
+    console.log(values);
+ };
 
  handleStandardTableChange = pagination => {
    this.fetchAreas(pagination, this.state.searchValues);
@@ -156,6 +160,14 @@ export default class phoneAd extends Component {
           </div>
         </div>
       </Card>
+      <AddPhoneAd
+        visible={modalVisible}
+        error={add.error}
+        status={add.status}
+        onAdd={this.handleAdd}
+        onCancel={this.handleAddCancel}
+        dispatch={this.props.dispatch}
+      />
     </PageHeaderLayout>
   );
 }

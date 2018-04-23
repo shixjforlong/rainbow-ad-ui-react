@@ -92,6 +92,12 @@ export const getRouterData = app => {
         import('../routes/Media/medias')
       ),
     },
+    //手机广告
+    '/ad/phoneAd': {
+      component: dynamicWrapper(app, ['phoneAd'], () =>
+        import('../routes/PhoneAd/phoneAd')
+      ),
+    },
 
     // 区域管理
     '/site/area': {

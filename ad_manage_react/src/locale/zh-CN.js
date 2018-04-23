@@ -33,7 +33,7 @@ module.exports = {
   },
   ad: {
     // 广告管理
-    ad_management: '广告管理',
+    ad_phone_management: '手机广告',
     mediaManagement: '媒体库',
     phoneManagement: '手机广告管理',
     automatManagement: '售货机广告管理',
@@ -44,6 +44,12 @@ module.exports = {
       fileShow:'文件预览',
       createTime:'创建时间',
       detail:"素材详情"
+    },
+    phone:{
+      name:"广告名称",
+      startTime:"开始时间",
+      endTime:"结束时间",
+      payStyles:"支付方式"
     }
   },
   management: {

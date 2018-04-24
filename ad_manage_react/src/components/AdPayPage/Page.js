@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import intl from 'react-intl-universal';
 import PropTypes from 'prop-types';
-import { Form, Input, Modal, Select,DatePicker,Button,Icon,Table,Tooltip } from 'antd';
+import { Form, Input, Modal, Select,DatePicker,Button,Icon,Table,Tooltip,Popconfirm } from 'antd';
 import { debounce } from 'lodash/function';
 import moment from 'moment';
 import { connect } from 'dva';
@@ -94,6 +94,10 @@ export default class Page extends PureComponent {
     });
     return newNotices;
   }
+  onDelete = (key) => {
+    const dataSource = [...this.state.paydataSource];
+    this.setState({ paydataSource: dataSource.filter(item => item.key !== key) });
+  }
 
   render() {
 
@@ -132,13 +136,16 @@ export default class Page extends PureComponent {
       },
       {
         title: intl.get('common.operation'),
-        render: ({ _id: id, state }) => (
-          <div>
-             <Tooltip title="删除">
-                <Button shape="circle" icon="delete" size="small" />
-            </Tooltip>
-          </div>
-        ),
+        render: (text, record) => {
+           return (
+             this.state.paydataSource.length > 0 ?
+             (
+               <Popconfirm title="确定要删除?" onConfirm={() => this.onDelete(record.key)}>
+                 <a href="javascript:;">删除</a>
+               </Popconfirm>
+             ) : null
+           );
+        },
       },
     ];
 

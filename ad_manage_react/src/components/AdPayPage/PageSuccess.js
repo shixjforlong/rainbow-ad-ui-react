@@ -1,13 +1,17 @@
 import React, { PureComponent } from 'react';
 import intl from 'react-intl-universal';
 import PropTypes from 'prop-types';
-import { Form, Input, Modal, Select,DatePicker,Button,Icon,Table,Tooltip } from 'antd';
+import { Form, Input, Modal, Select,DatePicker,Button,Icon,Table,Tooltip,Popconfirm } from 'antd';
 import { debounce } from 'lodash/function';
 import moment from 'moment';
 import { connect } from 'dva';
 
 import MediaList from '../../components/MediaList/list'
 
+@connect(({ media, loading }) => ({
+  media,
+  loading: loading.effects['media/getMedias'],
+}))
 export default class PageSuccess extends PureComponent {
   constructor(props) {
     super(props);
@@ -22,13 +26,86 @@ export default class PageSuccess extends PureComponent {
     };
   }
 
+  componentDidMount() {
+     this.props.dispatch({
+      type: 'media/getMedias',
+      payload: { ...this.state.searchValues },
+    });
+  }
+
+  handleStandardTableChange = pagination => {
+    this.fetchMeias(pagination, this.state.searchValues);
+  };
+  fetchMeias = (
+    pagination,
+    { ...searchValues }
+  ) => {
+    let params = {};
+    if (pagination && pagination.current) {
+      params = {
+        cursor: (pagination.current - 1) * pagination.pageSize,
+        limit: pagination.pageSize,
+      };
+    }
+    const verbose = { verbose: 100 };
+    const payload = { ...verbose, ...params, ...searchValues };
+
+    this.props.dispatch({ type: 'media/getMedias', payload });
+  };
+
+  handleManageCancel = (tab, id) => {
+    this.setState({
+      modalVisible: !!tab,
+    });
+  };
+
+  onConfirm = (selectMedia) => {
+     const { onConfirmTab } = this.props;
+     this.state.paySuccessdataSource = selectMedia;
+     onConfirmTab(selectMedia);
+  }
+
   handleAddCancel = flag => {
     this.setState({
       modalVisible: !!flag,
     });
   };
 
+  getMediaData = areas => {
+    if (areas === undefined || areas.length === 0 || areas === undefined) {
+      return [];
+    }
+    const newNotices = areas.map(media => {
+      let newNotice = { ...media };
+      newNotice = {
+        ...media,
+        _id: media._id,
+        mediaName:media.mediaName,
+        fileName:media.fileName,
+        length:media.length,
+        createTime: moment(media.createTime * 1000).format(
+          'YYYY.MM.DD HH:mm:ss'
+        ),
+
+      };
+      return newNotice;
+    });
+    return newNotices;
+  }
+
+  onDelete = (key) => {
+    const dataSource = [...this.state.paySuccessdataSource];
+    this.setState({ paySuccessdataSource: dataSource.filter(item => item.key !== key) });
+  }
+
   render() {
+      const { media, loading, dispatch } = this.props;
+      console.log(media);
+      const { data,add} = media;
+      const { selectedRowKeys, modalVisible } = this.state;
+      const tableProps = { loading, data, dispatch };
+      const fontStyle = { fontSize: '20px', marginRight: '10px' };
+
       const itemLayout = {
         labelCol: { span: 5 },
         wrapperCol: { span: 15 },
@@ -57,13 +134,16 @@ export default class PageSuccess extends PureComponent {
         },
         {
           title: intl.get('common.operation'),
-          render: ({ _id: id, state }) => (
-            <div>
-               <Tooltip title="删除">
-                  <Button shape="circle" icon="delete" size="small" />
-              </Tooltip>
-            </div>
-          ),
+          render: (text, record) => {
+             return (
+               this.state.paySuccessdataSource.length > 0 ?
+               (
+                 <Popconfirm title="确定要删除?" onConfirm={() => this.onDelete(record.key)}>
+                   <a href="javascript:;">删除</a>
+                 </Popconfirm>
+               ) : null
+             );
+          },
         },
       ];
 
@@ -83,9 +163,18 @@ export default class PageSuccess extends PureComponent {
                  />
             </Form.Item>
             <Form.Item {...itemcontentLayout}  hasFeedback>
-             <Input type="text" id="control-textarea"  defaultValue="请输入链接地址,http://"/>
+             <Input type="text" id="control-textarea"  defaultValue="http://"/>
            </Form.Item>
           </Form>
+          <MediaList
+              {...tableProps}
+              dispatch={this.props.dispatch}
+              visible={modalVisible}
+              onCancel={this.handleManageCancel}
+              onConfirm={this.onConfirm}
+              dataSource={this.getMediaData(data.list)}
+              onChange={this.handleStandardTableChange}
+            />
         </div>
       )
   }

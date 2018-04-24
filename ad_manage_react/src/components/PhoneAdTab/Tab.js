@@ -49,7 +49,7 @@ export default class Tab extends Component {
               </TabPane>
               <TabPane tab="支付成功(广告图片)" key="3">
                  <AdPaySuccessPage
-                  onConfirmTab = {this.onConfirmTab3}
+                  onConfirmTab = {this.onConfirmTab2}
                  />
               </TabPane>
             </Tabs>

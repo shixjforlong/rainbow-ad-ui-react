@@ -130,6 +130,7 @@ export default class PhoneAdTable extends PureComponent {
           pagination={paginationProps}
           onChange={this.handleTableChange}
           footer={this.renderFooter}
+          scroll={{ y: 300 }}
         />
 
 

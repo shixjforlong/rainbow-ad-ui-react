@@ -128,6 +128,7 @@ export default class MediasTable extends PureComponent {
           pagination={paginationProps}
           onChange={this.handleTableChange}
           footer={this.renderFooter}
+          scroll={{ y: 300 }}
         />
         {modalVisible && (
           <MediaManage

@@ -40,14 +40,14 @@ export default class Tab extends Component {
                    onConfirmTab = {this.onConfirmTab1}
                  />
               </TabPane>
-              <TabPane tab="广告链接(支付成功)" key="2">
+              <TabPane tab="支付成功(广告链接)" key="2">
                 <Form>
                   <Form.Item {...itemLayout}  label="链接地址" hasFeedback>
                    <Input type="text" id="control-textarea"/>
                  </Form.Item>
                 </Form>
               </TabPane>
-              <TabPane tab="广告图片(支付成功)" key="3">
+              <TabPane tab="支付成功(广告图片)" key="3">
                  <AdPaySuccessPage
                   onConfirmTab = {this.onConfirmTab3}
                  />

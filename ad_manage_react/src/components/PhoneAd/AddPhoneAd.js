@@ -13,6 +13,14 @@ const { RangePicker } = DatePicker;
 
 @Form.create()
 export default class AddPhoneAd extends PureComponent {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      mediaList:[]
+    }
+  }
+
   static defaultProps = {
     error: undefined,
   };
@@ -29,7 +37,14 @@ export default class AddPhoneAd extends PureComponent {
     const { onAdd } = this.props;
     this.props.form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        onAdd(values);
+        const finalData={
+          adName:values.adName,
+          mediaList:this.state.mediaList,
+          payStyles:values.payStyles,
+          startTime:  new Date(moment(values.DateValue[0]).format('YYYY/MM/DD')).getTime() / 1000,
+          endTime: new Date(moment(values.DateValue[1]).format('YYYY/MM/DD')).getTime() / 1000 +3600 * 24 -1,
+        };
+        onAdd(finalData);
       }
     });
   };
@@ -47,6 +62,10 @@ export default class AddPhoneAd extends PureComponent {
     );
     return [moment(nowDate, 'YYYY/MM/DD'), moment(oldDate, 'YYYY/MM/DD')];
   };
+
+  adContent = (data) => {
+      this.state.mediaList = data;
+  }
 
   render() {
     const { visible,error,form } = this.props;
@@ -72,7 +91,7 @@ export default class AddPhoneAd extends PureComponent {
       <Form>
         {error && <AlertError error={error} />}
           <Form.Item {...itemLayout} label="广告名称" hasFeedback required>
-            {getFieldDecorator('name', {
+            {getFieldDecorator('adName', {
               rules: [
                 {
                   required: true,
@@ -101,7 +120,9 @@ export default class AddPhoneAd extends PureComponent {
           </Form.Item>
 
           <Form.Item {...adContentLayout}>
-             <PhoneAdTab />
+             <PhoneAdTab
+               onConfirmTab = {this.adContent}
+             />
           </Form.Item>
         </Form>
       </Modal>

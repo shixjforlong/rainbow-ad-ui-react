@@ -64,7 +64,13 @@ export default class Page extends PureComponent {
   onConfirm = (selectMedia) => {
      const { onConfirmTab } = this.props;
      this.state.paydataSource = selectMedia;
-     onConfirmTab(selectMedia);
+     const mediaInfo={
+       adIndex:"0",
+       mediaId:selectMedia[0]._id,
+       mediaName:selectMedia[0].mediaName,
+       imageCdnpath:selectMedia[0].imageCdnpath
+     }
+     onConfirmTab(mediaInfo);
   }
 
   handleAddCancel = flag => {
@@ -129,10 +135,6 @@ export default class Page extends PureComponent {
         render(value) {
           return <img src={value} style={{width:40,height:40}} />
         }
-      },
-      {
-        title: intl.get('ad.media.createTime'),//创建时间
-        dataIndex: 'createTime'
       },
       {
         title: intl.get('common.operation'),

@@ -23,6 +23,13 @@ export default class PageSuccess extends PureComponent {
        expandForm: false,
        selectedRowKeys: [],
        paySuccessdataSource:[],//支付成功页面广告数据
+       mediainfo:{
+         adIndex:"1",
+         mediaId:"",
+         mediaName:"",
+         imageCdnpath:"",
+         linkaddress:""
+       }
     };
   }
 
@@ -59,10 +66,25 @@ export default class PageSuccess extends PureComponent {
     });
   };
 
+  onDelete = (key) => {
+    const dataSource = [...this.state.paySuccessdataSource];
+    this.setState({ paySuccessdataSource: dataSource.filter(item => item.key !== key) });
+  }
+
+  onBlur = (e) => { //失去焦点时获取光标所在位置
+    const { onConfirmTab } = this.props;
+    const value = e.target.value;
+    this.state.mediainfo.linkaddress  = value;
+    onConfirmTab(this.state.mediainfo);
+  }
   onConfirm = (selectMedia) => {
      const { onConfirmTab } = this.props;
      this.state.paySuccessdataSource = selectMedia;
-     onConfirmTab(selectMedia);
+
+     this.state.mediainfo.mediaId = selectMedia[0]._id;
+     this.state.mediainfo.mediaName = selectMedia[0].mediaName;
+     this.state.mediainfo.imageCdnpath = selectMedia[0].imageCdnpath;
+     onConfirmTab(this.state.mediainfo);
   }
 
   handleAddCancel = flag => {
@@ -91,11 +113,6 @@ export default class PageSuccess extends PureComponent {
       return newNotice;
     });
     return newNotices;
-  }
-
-  onDelete = (key) => {
-    const dataSource = [...this.state.paySuccessdataSource];
-    this.setState({ paySuccessdataSource: dataSource.filter(item => item.key !== key) });
   }
 
   render() {
@@ -129,10 +146,6 @@ export default class PageSuccess extends PureComponent {
           }
         },
         {
-          title: intl.get('ad.media.createTime'),//创建时间
-          dataIndex: 'createTime'
-        },
-        {
           title: intl.get('common.operation'),
           render: (text, record) => {
              return (
@@ -163,7 +176,7 @@ export default class PageSuccess extends PureComponent {
                  />
             </Form.Item>
             <Form.Item {...itemcontentLayout}  hasFeedback>
-             <Input type="text" id="control-textarea"  defaultValue="http://"/>
+             <Input type="text" onBlur={this.onBlur.bind(this)}  defaultValue="http://"/>
            </Form.Item>
           </Form>
           <MediaList

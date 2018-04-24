@@ -9,8 +9,6 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import BizIcon from '../../components/BizIcon';
 import AddPhoneAd from '../../components/PhoneAd/AddPhoneAd';
 
-const { Option } = Select;
-
 @connect(({ phoneAd, loading }) => ({
   phoneAd,
   loading: loading.effects['phoneAd/getPhoneAds'],
@@ -20,8 +18,6 @@ const { Option } = Select;
 export default class phoneAd extends Component {
   constructor(props) {
     super(props);
-    const now =
-      new Date(new Date().toLocaleDateString()).getTime() + 3600 * 24 * 1000;
 
     this.state = {
       searchValues: {
@@ -100,8 +96,22 @@ export default class phoneAd extends Component {
      modalVisible: !!flag,
    });
  };
+ //添加手机广告
  handleAdd = values => {
     console.log(values);
+    this.props.dispatch({
+      type: 'phoneAd/add',
+      payload: {
+        ...values,
+        onSuccess: () => {
+          message.success('添加成功');
+          this.setState({
+            modalVisible: false,
+          });
+          this.fetchAreas({}, {});
+        },
+      },
+    });
  };
 
  handleStandardTableChange = pagination => {

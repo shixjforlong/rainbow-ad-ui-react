@@ -25,8 +25,12 @@ const menuData = [
         path: 'media',
       },
       {
-        name: 'ad.phoneManagement',   //手机广告
+        name: 'ad.phoneManagement',   //手机广告管理
         path: 'phoneAd',
+      },
+      {
+        name: 'ad.phonePublish',   //手机广告发布
+        path: 'phonePublish',
       }
     ],
   },

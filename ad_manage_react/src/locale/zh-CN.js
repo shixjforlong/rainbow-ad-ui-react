@@ -36,6 +36,7 @@ module.exports = {
     ad_phone_management: '手机广告',
     mediaManagement: '媒体库',
     phoneManagement: '手机广告管理',
+    phonePublish:'手机广告发布',
     automatManagement: '售货机广告管理',
     media:{
       mediaName:'素材名称',

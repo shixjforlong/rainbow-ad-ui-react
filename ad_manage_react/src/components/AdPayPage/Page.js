@@ -13,7 +13,7 @@ import MediaList from '../../components/MediaList/list'
   loading: loading.effects['media/getMedias'],
 }))
 
-export default class AddPhoneAd extends PureComponent {
+export default class Page extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -62,7 +62,9 @@ export default class AddPhoneAd extends PureComponent {
   };
 
   onConfirm = (selectMedia) => {
+     const { onConfirmTab } = this.props;
      this.state.paydataSource = selectMedia;
+     onConfirmTab(selectMedia);
   }
 
   handleAddCancel = flag => {
@@ -143,21 +145,18 @@ export default class AddPhoneAd extends PureComponent {
     return (
       <div>
         <Form>
-          <Form.Item {...itemLayout}>
+          <Form.Item {...itemcontentLayout}>
               <Button type="ghost"   onClick={() => this.handleAddCancel(true)}>
                 <Icon type="plus" /> 添加图片
               </Button>
+              <Table
+               dataSource={this.state.paydataSource}
+               columns={columns}
+               pagination={false}
+               size="small"
+               bordered
+               />
           </Form.Item>
-          <Form.Item {...itemcontentLayout}>
-          <Table
-           dataSource={this.state.paydataSource}
-           columns={columns}
-           pagination={false}
-           size="small"
-           bordered
-           />
-          </Form.Item>
-
         </Form>
         <MediaList
             {...tableProps}

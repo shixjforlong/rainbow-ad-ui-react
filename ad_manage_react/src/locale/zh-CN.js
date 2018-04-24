@@ -50,9 +50,11 @@ module.exports = {
       startTime:"开始时间",
       endTime:"结束时间",
       payStyles:"支付方式",
-      paySelect:"请选择支付方式",
+      paySelect:"请选择",
       wechat:"微信",
-      alipay:"支付宝"
+      alipay:"支付宝",
+      link:"链接",
+      picture:"图片"
     }
   },
   management: {

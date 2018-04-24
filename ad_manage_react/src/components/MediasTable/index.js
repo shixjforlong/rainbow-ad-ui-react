@@ -67,7 +67,8 @@ export default class MediasTable extends PureComponent {
       },
       {
         title: intl.get('ad.media.fileName'),//文件名称
-        dataIndex: 'fileName'
+        dataIndex: 'fileName',
+        width: 160,
       },
       {
         title: intl.get('ad.media.fileShow'),//文件预览
@@ -80,16 +81,19 @@ export default class MediasTable extends PureComponent {
       {
         title: intl.get('ad.media.length')+'(kb)',//文件大小
         dataIndex: 'length',
+        width: 160,
         render(value) {
           return (value/(1024)).toFixed(1)
         }
       },
       {
         title: intl.get('ad.media.createTime'),//创建时间
-        dataIndex: 'createTime'
+        dataIndex: 'createTime',
+        width: 160,
       },
       {
         title: intl.get('common.operation'),
+        width: 120,
         render: ({ _id: id, state }) => (
           <div>
             <Tooltip title="修改">

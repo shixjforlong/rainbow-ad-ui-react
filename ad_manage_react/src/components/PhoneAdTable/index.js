@@ -68,6 +68,7 @@ export default class PhoneAdTable extends PureComponent {
       {
         title: intl.get('ad.phone.payStyles'),//支付方式
         dataIndex: 'payStyles',
+        width: 160,
         render(value) {
           if(value == 2){
              return "微信"
@@ -80,18 +81,22 @@ export default class PhoneAdTable extends PureComponent {
       },
       {
         title: intl.get('ad.phone.startTime'),//开始时间
+        width: 160,
         dataIndex: 'startTime'
       },
       {
         title: intl.get('ad.phone.endTime'),//结束时间
+        width: 160,
         dataIndex: 'endTime'
       },
       {
         title: intl.get('ad.media.createTime'),//创建时间
+        width: 160,
         dataIndex: 'createTime'
       },
       {
         title: intl.get('common.operation'),
+        width: 120,
         render: ({ _id: id, state }) => (
           <div>
             <Tooltip title="修改">
